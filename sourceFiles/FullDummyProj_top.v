@@ -28,6 +28,10 @@ wire[4:0] memAB_writeaddr;
 wire memAB_ena;
 wire memAB_wea;
 wire memAB_enb;
+wire[4:0] memAB_nent1;
+wire[4:0] memAB_nent2;
+wire[4:0] memAB_nent3;
+wire[4:0] memAB_nent4;
 
 // memAC_BRAM signals
 wire[31:0] memAC_din;
@@ -35,6 +39,8 @@ wire[31:0] memAC_dout;
 wire[5:0] memAC_readaddr;
 wire[5:0] memAC_writeaddr;
 wire memAC_ena;
+wire[4:0] memAC_nent1;
+wire[4:0] memAC_nent2;
 
 // memBC_BRAM signals
 wire[31:0] memBC_din;
@@ -44,6 +50,8 @@ wire[4:0] memBC_writeaddr;
 wire memBC_ena;
 wire memBC_wea;
 wire memBC_enb;
+wire[4:0] memBC_nent1;
+wire[4:0] memBC_nent2;
 
 // Process start/done signals
 reg processB_start;
@@ -65,40 +73,92 @@ always @(processB_done) begin
 end
 
 // Instantiate all BRAMs
-blk_mem_gen_2page memAB_BRAM (
-  .clka(clk),
-  .addra(memAB_writeaddr),
-  .dina(memAB_din),
-  .ena(memAB_ena),
-  .wea(memAB_wea),
-  .clkb(clk),
-  .addrb(memAB_readaddr),
-  .doutb(memAB_dout),
-  .enb(memAB_enb)
+Memory #(
+    .RAM_WIDTH(32),
+    .RAM_DEPTH(32),
+    .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
+    .HEX(0),
+    .INIT_FILE("/home/byates/FullToyProjV9/FullToyProjV9/FullToyProjV9.ip_user_files/mem_init_files/fives.dat")
+    ) memAB_BRAM (
+    .clka(clk),
+    .addra(memAB_writeaddr),
+    .dina(memAB_din),
+    .wea(memAB_wea),
+    .clkb(clk),
+    .addrb(memAB_readaddr),
+    .doutb(memAB_dout),
+    .regceb(1'b1),
+    .nevt(memAB_nent1),
+    .enb(memAB_enb)
+);
+//blk_mem_gen_2page memAB_BRAM (
+//  .clka(clk),
+//  .addra(memAB_writeaddr),
+//  .dina(memAB_din),
+//  .ena(memAB_ena),
+//  .wea(memAB_wea),
+//  .clkb(clk),
+//  .addrb(memAB_readaddr),
+//  .doutb(memAB_dout),
+//  .enb(memAB_enb)
+//);
+
+//blk_mem_gen_4page memAC_BRAM (
+//  .clka(clk),
+//  .addra(memAC_writeaddr),
+//  .dina(memAC_din),
+//  .ena(memAC_ena),
+//  .wea(memAC_wea),
+//  .clkb(clk),
+//  .addrb(memAC_readaddr),
+//  .doutb(memAC_dout),
+//  .enb(memAC_enb)
+//);
+Memory #(
+    .RAM_WIDTH(32),
+    .RAM_DEPTH(64),
+    .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
+    .INIT_FILE("")
+    ) memAC_BRAM (
+    .clka(clk),
+    .addra(memAC_writeaddr),
+    .dina(memAC_din),
+    .wea(memAC_wea),
+    .clkb(clk),
+    .addrb(memAC_readaddr),
+    .doutb(memAC_dout),
+    .regceb(1'b1),
+    .nevt(memAC_nent1),
+    .enb(memAC_enb)
 );
 
-blk_mem_gen_4page memAC_BRAM (
-  .clka(clk),
-  .addra(memAC_writeaddr),
-  .dina(memAC_din),
-  .ena(memAC_ena),
-  .wea(memAC_wea),
-  .clkb(clk),
-  .addrb(memAC_readaddr),
-  .doutb(memAC_dout),
-  .enb(memAC_enb)
-);
-
-blk_mem_gen_2page memBC_BRAM (
-  .clka(clk),
-  .addra(memBC_writeaddr),
-  .dina(memBC_din),
-  .ena(memBC_ena),
-  .wea(memBC_wea),
-  .clkb(clk),
-  .addrb(memBC_readaddr),
-  .doutb(memBC_dout),
-  .enb(memBC_enb)
+//blk_mem_gen_2page memBC_BRAM (
+//  .clka(clk),
+//  .addra(memBC_writeaddr),
+//  .dina(memBC_din),
+//  .ena(memBC_ena),
+//  .wea(memBC_wea),
+//  .clkb(clk),
+//  .addrb(memBC_readaddr),
+//  .doutb(memBC_dout),
+//  .enb(memBC_enb)
+//);
+Memory #(
+    .RAM_WIDTH(32),
+    .RAM_DEPTH(32),
+    .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
+    .INIT_FILE("")
+    ) memBC_BRAM (
+    .clka(clk),
+    .addra(memBC_writeaddr),
+    .dina(memBC_din),
+    .wea(memBC_wea),
+    .clkb(clk),
+    .addrb(memBC_readaddr),
+    .doutb(memBC_dout),
+    .regceb(1'b1),
+    .nevt(memBC_nent1),
+    .enb(memBC_enb)
 );
 
 // Internal BX signals
@@ -126,6 +186,9 @@ processA_0 doA (
   .outmem1_address0(memAB_writeaddr),
   .outmem1_d0(memAB_din),
   .outmem2_address0(memAC_writeaddr),
+  .nent_i_0('h0F),
+  .nent_o_0(memAB_nent1),
+  .nent_o_1(memAC_nent2),
   .outmem2_d0(memAC_din)
 );
 
@@ -143,6 +206,8 @@ processB_0 doB (
   .inmem_address0(memAB_readaddr),
   .inmem_q0(memAB_dout),
   .outmem_address0(memBC_writeaddr),
+//  .nent_o_0(memAB_nent1),
+//  .nent_o_1(memBC_nent2),
   .outmem_d0(memBC_din)
 );
 

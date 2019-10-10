@@ -100,28 +100,80 @@ wire memout_wea;
 wire memout_enb;
 
 // Instantiate all BRAMs
-blk_mem_gen_mem1 mem1_BRAM (
-  .clka(clk),
-  .addra(mem1_writeaddr),
-  .dina(mem1_din),
-  .ena(mem1_ena),
-  .wea(mem1_wea),
-  .clkb(clk),
-  .addrb(mem1_readaddr),
-  .doutb(mem1_dout),
-  .enb(mem1_enb)
+Memory #(
+    .RAM_WIDTH(32),
+    .RAM_DEPTH(32),
+    .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
+    .HEX(0),
+    .INIT_FILE("/home/byates/FullToyProjV9/FullToyProjV9/FullToyProjV9.ip_user_files/mem_init_files/fives.dat")
+    ) mem1_BRAM (
+//    .addra(mem1_writeaddr),
+//    .addrb(mem1_readaddr),
+//    .dina(mem1_din),
+//    .clka(clk),
+//    .clkb(clk),
+//    .wea(mem1_wea),
+//    .enb(mem1_enb),
+//    .doutb(mem1_dout)
+    .clka(clk),
+    .addra(mem1_writeaddr),
+    .dina(mem1_din),
+    .wea(mem1_wea),
+    .clkb(clk),
+    .addrb(mem1_readaddr),
+    .doutb(mem1_dout),
+    .regceb(1'b1),
+    .nevt(1'd16),
+    .enb(mem1_enb)
 );
+//blk_mem_gen_mem1 mem1_BRAM (
+//  .clka(clk),
+//  .addra(mem1_writeaddr),
+//  .dina(mem1_din),
+//  .ena(mem1_ena),
+//  .wea(mem1_wea),
+//  .clkb(clk),
+//  .addrb(mem1_readaddr),
+//  .doutb(mem1_dout),
+//  .enb(mem1_enb)
+//);
 
-blk_mem_gen_mem2 mem2_BRAM (
-  .clka(clk),
-  .addra(mem2_writeaddr),
-  .dina(mem2_din),
-  .ena(mem2_ena),
-  .wea(mem2_wea),
-  .clkb(clk),
-  .addrb(mem2_readaddr),
-  .doutb(mem2_dout),
-  .enb(mem2_enb)
+//blk_mem_gen_mem2 mem2_BRAM (
+//  .clka(clk),
+//  .addra(mem2_writeaddr),
+//  .dina(mem2_din),
+//  .ena(mem2_ena),
+//  .wea(mem2_wea),
+//  .clkb(clk),
+//  .addrb(mem2_readaddr),
+//  .doutb(mem2_dout),
+//  .enb(mem2_enb)
+//);
+
+Memory #(
+    .RAM_WIDTH(32),
+    .RAM_DEPTH(32),
+    .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
+    .HEX(0),
+    .INIT_FILE("/home/byates/FullToyProjV9/FullToyProjV9/FullToyProjV9.ip_user_files/mem_init_files/sevens.dat")
+    ) mem2_BRAM (
+//    .addra(mem2_writeaddr),
+//    .addrb(mem2_readaddr),
+//    .dina(mem2_din),
+//    .clka(clk),
+//    .clkb(clk),
+//    .wea(mem2_wea),
+//    .enb(mem2_enb),
+//    .doutb(mem2_dout)
+    .clka(clk),
+    .addra(mem2_writeaddr),
+    .dina(mem2_din),
+    .wea(mem2_wea),
+    .clkb(clk),
+    .addrb(mem2_readaddr),
+    .doutb(mem2_dout),
+    .regceb(1'b1),
+    .enb(mem2_enb)
 );
 
 blk_mem_gen_2page memout_BRAM (

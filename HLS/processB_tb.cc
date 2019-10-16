@@ -17,6 +17,8 @@ int main()
   // reference array
   int refarray1[2][16] = {{4,6,10,14,22,26,34,38,46,58,62,74,82,86,94,106},
                             {6,8,12,16,24,28,36,40,48,60,64,76,84,88,96,108}};
+  ap_uint<5> nent_i[4] = {16,16,16,16};
+  ap_uint<5> nent_o[4] = {0,0,0,0};
 
   ap_uint<2> bx_o;
 
@@ -25,7 +27,7 @@ int main()
     cout << "Event: " << ievt << endl;
 
     // call top function
-    processB(ievt, bx_o, memoryAB, memoryBC);
+    processB(ievt, bx_o, memoryAB, memoryBC, nent_i, nent_o);
     //topfunction(ievt, bx_o, inarray1[ievt%2], inarray2[ievt%2], outarray[ievt%2]);
 
     // verify output

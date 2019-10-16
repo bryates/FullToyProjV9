@@ -68,6 +68,8 @@ reg[4:0] mem1_writeaddr;
 reg mem1_ena;
 reg mem1_wea;
 wire mem1_enb;
+wire[4:0] mem1_nent;
+wire[4:0] mem2_nent;
 
 initial begin
   mem1_writeaddr = 0;
@@ -102,19 +104,12 @@ wire memout_enb;
 // Instantiate all BRAMs
 Memory #(
     .RAM_WIDTH(32),
-    .RAM_DEPTH(32),
+    .RAM_DEPTH(16),
+    .PAGES(2),
     .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
     .HEX(0),
-    .INIT_FILE("/home/byates/FullToyProjV9/FullToyProjV9/FullToyProjV9.ip_user_files/mem_init_files/fives.dat")
+    .INIT_FILE("fives.dat")
     ) mem1_BRAM (
-//    .addra(mem1_writeaddr),
-//    .addrb(mem1_readaddr),
-//    .dina(mem1_din),
-//    .clka(clk),
-//    .clkb(clk),
-//    .wea(mem1_wea),
-//    .enb(mem1_enb),
-//    .doutb(mem1_dout)
     .clka(clk),
     .addra(mem1_writeaddr),
     .dina(mem1_din),
@@ -123,7 +118,8 @@ Memory #(
     .addrb(mem1_readaddr),
     .doutb(mem1_dout),
     .regceb(1'b1),
-    .nevt(1'd16),
+    .nevt('b11111),
+    .nent_0(mem1_nent),
     .enb(mem1_enb)
 );
 //blk_mem_gen_mem1 mem1_BRAM (
@@ -152,19 +148,12 @@ Memory #(
 
 Memory #(
     .RAM_WIDTH(32),
-    .RAM_DEPTH(32),
+    .RAM_DEPTH(16),
+    .PAGES(2),
     .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
     .HEX(0),
-    .INIT_FILE("/home/byates/FullToyProjV9/FullToyProjV9/FullToyProjV9.ip_user_files/mem_init_files/sevens.dat")
+    .INIT_FILE("sevens.dat")
     ) mem2_BRAM (
-//    .addra(mem2_writeaddr),
-//    .addrb(mem2_readaddr),
-//    .dina(mem2_din),
-//    .clka(clk),
-//    .clkb(clk),
-//    .wea(mem2_wea),
-//    .enb(mem2_enb),
-//    .doutb(mem2_dout)
     .clka(clk),
     .addra(mem2_writeaddr),
     .dina(mem2_din),
@@ -173,20 +162,41 @@ Memory #(
     .addrb(mem2_readaddr),
     .doutb(mem2_dout),
     .regceb(1'b1),
+    .nevt('b11111),
+    .nent_0(mem2_nent),
     .enb(mem2_enb)
 );
 
-blk_mem_gen_2page memout_BRAM (
-  .clka(clk),
-  .addra(memout_writeaddr),
-  .dina(memout_din),
-  .ena(memout_ena),
-  .wea(memout_wea),
-  .clkb(clk),
-  .addrb(memout_readaddr),
-  .doutb(memout_dout),
-  .enb(memout_enb)
+Memory #(
+    .RAM_WIDTH(32),
+    .RAM_DEPTH(16),
+    .PAGES(2),
+    .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
+    .HEX(0),
+    .INIT_FILE("")
+    ) memout_BRAM (
+    .clka(clk),
+    .addra(memout_writeaddr),
+    .dina(memout_din),
+    .wea(memout_wea),
+    .clkb(clk),
+    .addrb(memout_readaddr),
+    .doutb(memout_dout),
+    .regceb(1'b1),
+    .enb(memout_enb)
 );
+
+//blk_mem_gen_2page memout_BRAM (
+//  .clka(clk),
+//  .addra(memout_writeaddr),
+//  .dina(memout_din),
+//  .ena(memout_ena),
+//  .wea(memout_wea),
+//  .clkb(clk),
+//  .addrb(memout_readaddr),
+//  .doutb(memout_dout),
+//  .enb(memout_enb)
+//);
 
 // Instantiate FullDummyProject_top
 FullDummyProject_top doFull (
@@ -198,8 +208,10 @@ FullDummyProject_top doFull (
   .bx_in(bx_in),
   .bx_out(bx_out),
   .mem1_readaddr(mem1_readaddr),
+  .mem1_nent(mem1_nent),
   .mem1_dout(mem1_dout),
   .mem2_readaddr(mem2_readaddr),
+  .mem2_nent(mem1_nent),
   .mem2_dout(mem2_dout),
   .memout_ena(memout_ena),
   .memout_wea(memout_wea),

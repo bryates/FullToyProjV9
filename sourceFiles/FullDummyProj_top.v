@@ -11,8 +11,10 @@ module FullDummyProject_top(
   input[1:0] bx_in,
   output[1:0] bx_out,
   output[4:0] mem1_readaddr,
+  input[5:0] mem1_nent,
   input[31:0] mem1_dout,
   output[4:0] mem2_readaddr,
+  input[5:0] mem2_nent,
   input[31:0] mem2_dout,
   output memout_ena,
   output memout_wea,
@@ -75,10 +77,11 @@ end
 // Instantiate all BRAMs
 Memory #(
     .RAM_WIDTH(32),
-    .RAM_DEPTH(32),
+    .RAM_DEPTH(16),
+    .PAGES(2),
     .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
     .HEX(0),
-    .INIT_FILE("/home/byates/FullToyProjV9/FullToyProjV9/FullToyProjV9.ip_user_files/mem_init_files/fives.dat")
+    .INIT_FILE("")
     ) memAB_BRAM (
     .clka(clk),
     .addra(memAB_writeaddr),
@@ -116,7 +119,8 @@ Memory #(
 //);
 Memory #(
     .RAM_WIDTH(32),
-    .RAM_DEPTH(64),
+    .RAM_DEPTH(16),
+    .PAGES(2),
     .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
     .INIT_FILE("")
     ) memAC_BRAM (
@@ -145,7 +149,8 @@ Memory #(
 //);
 Memory #(
     .RAM_WIDTH(32),
-    .RAM_DEPTH(32),
+    .RAM_DEPTH(16),
+    .PAGES(2),
     .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
     .INIT_FILE("")
     ) memBC_BRAM (
@@ -186,9 +191,10 @@ processA_0 doA (
   .outmem1_address0(memAB_writeaddr),
   .outmem1_d0(memAB_din),
   .outmem2_address0(memAC_writeaddr),
-  .nent_i_0('h0F),
-  .nent_o_0(memAB_nent1),
-  .nent_o_1(memAC_nent2),
+  .nent_i1_0_V(mem1_nent),
+  .nent_i2_0_V(mem2_nent),
+  .nent_o1_0_V(memAB_nent1),
+  .nent_o2_0_V(memAC_nent1),
   .outmem2_d0(memAC_din)
 );
 
@@ -206,8 +212,8 @@ processB_0 doB (
   .inmem_address0(memAB_readaddr),
   .inmem_q0(memAB_dout),
   .outmem_address0(memBC_writeaddr),
-//  .nent_o_0(memAB_nent1),
-//  .nent_o_1(memBC_nent2),
+  .nent_i_0_V(memAB_nent1),
+  .nent_o_0_V(memBC_nent1),
   .outmem_d0(memBC_din)
 );
 
@@ -226,6 +232,8 @@ processC_0 doC (
   .inmem1_q0(memBC_dout),
   .inmem2_address0(memAC_readaddr),
   .inmem2_q0(memAC_dout),
+  .nent_i1_0_V(memBC_nent1),
+  .nent_i2_0_V(memAC_nent1),
   .outmem_address0(memout_writeaddr),
   .outmem_d0(memout_din)
 );

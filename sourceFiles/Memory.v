@@ -24,6 +24,7 @@
 module Memory #(
   parameter RAM_WIDTH = 18,                       // Specify RAM data width
   parameter RAM_DEPTH = 1024,                     // Specify RAM depth (number of entries)
+  parameter PAGES = 1,                            // Specify RAM pages
   parameter INIT_FILE = "",                       // Specify name/location of RAM initialization file if using one (leave blank if not)
   parameter RAM_PERFORMANCE = "HIGH_PERFORMANCE",  // Select "HIGH_PERFORMANCE" or "LOW_LATENCY"
   parameter HEX = 1

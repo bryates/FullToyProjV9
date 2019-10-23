@@ -39,8 +39,8 @@ module Memory #(
   input enb,                           // Read Enable, for additional power savings, disable when not in use
   input rstb,                          // Output reset (does not affect memory contents)
   input regceb,                        // Output register enable
-  input [PAGES/2:0]pagea,              // Write page
-  input [PAGES/2:0]pageb,              // Read page
+  input [PAGES/2-1:0]pagea,              // Write page
+  input [PAGES/2-1:0]pageb,              // Read page
   input [4:0]nent_i,                   // Num entries received
   output [4:0]nent_0,                  // Num entries per page [4 bits each]
   output [RAM_WIDTH-1:0] doutb         // RAM output data
@@ -48,7 +48,8 @@ module Memory #(
 
   (* ram_style = "block" *) reg [RAM_WIDTH-1:0] BRAM [PAGES*RAM_DEPTH-1:0];
   reg [RAM_WIDTH-1:0] ram_data = {RAM_WIDTH{1'b0}};
-  reg [4:0] nevt = 4'b0;
+  reg [5*PAGES:0] nevt = 'b1000010000;
+  reg [4:0] nent = 4'b0;
   reg [3+PAGES/2:0] paddra, paddrb;
 
   // The following code either initializes the memory values to a specified file or to all zeros to match hardware
@@ -72,18 +73,18 @@ module Memory #(
     begin
       paddra = addra + pagea*RAM_DEPTH;
       BRAM[paddra] <= dina;
-      nevt = nent_i;
+      nevt = nevt | (nent_i << 5*pagea);
     end
-
-  assign nent_0 = nent_i;
 
   always @(posedge clkb)
     if (enb)
     begin
       paddrb = addrb + pageb*RAM_DEPTH;
       ram_data <= BRAM[paddrb];
+      assign nent = nevt >> 5*pageb;
     end
 
+  assign nent_0 = nent;
 
   //  The following code generates HIGH_PERFORMANCE (use output register) or LOW_LATENCY (no output register)
   generate

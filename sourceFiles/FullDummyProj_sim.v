@@ -126,7 +126,7 @@ Memory #(
     .addrb(mem1_readaddr),
     .doutb(mem1_dout),
     .regceb(1'b1),
-    .nent_i('d31),
+    .nent_i('d16),
     .nent_0(mem1_nent),
     .enb(mem1_enb)
 );
@@ -172,7 +172,7 @@ Memory #(
     .addrb(mem2_readaddr),
     .doutb(mem2_dout),
     .regceb(1'b1),
-    .nent_i('d31),
+    .nent_i('d16),
     .nent_0(mem2_nent),
     .enb(mem2_enb)
 );

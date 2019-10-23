@@ -17,8 +17,8 @@ int main()
   // reference array
   int refarray1[2][16] = {{4,6,10,14,22,26,34,38,46,58,62,74,82,86,94,106},
                             {6,8,12,16,24,28,36,40,48,60,64,76,84,88,96,108}};
-  ap_uint<5> nent_i[4] = {16,16,16,16};
-  ap_uint<5> nent_o[4] = {0,0,0,0};
+  ap_uint<5> nent_i[2] = {16,16};
+  ap_uint<5> nent_o[2] = {0,0};
 
   ap_uint<2> bx_o;
 
@@ -27,7 +27,7 @@ int main()
     cout << "Event: " << ievt << endl;
 
     // call top function
-    processB(ievt, bx_o, memoryAB, memoryBC, nent_i, nent_o);
+    processB(ievt, bx_o, memoryAB[ievt%2], memoryBC[ievt%2], nent_i, nent_o);
     //topfunction(ievt, bx_o, inarray1[ievt%2], inarray2[ievt%2], outarray[ievt%2]);
 
     // verify output
@@ -35,9 +35,13 @@ int main()
       if (memoryBC[ievt%2][i] != refarray1[ievt%2][i])
       {
         err++;
-        cout << "memoryBC[ievt%2][i]: " << memoryBC[ievt%2][i];
+        cout << "memoryBC[ievt%2][i]: " << memoryBC[ievt%2][i] << "\t";
         cout << "refarray1[ievt%2][i]: " << refarray1[ievt%2][i] << endl;
       }
+    }
+    for (int i = 0; i < bx_o; i++) {
+      if (nent_i[i%2] != nent_o[i%2]) err++;
+      std::cout << nent_i[i] << "\t" << nent_o[i] << std::endl;
     }
   }
 

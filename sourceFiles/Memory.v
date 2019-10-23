@@ -39,40 +39,51 @@ module Memory #(
   input enb,                           // Read Enable, for additional power savings, disable when not in use
   input rstb,                          // Output reset (does not affect memory contents)
   input regceb,                        // Output register enable
-  input [4:0]nevt,                     // Num entries received
-  output [4:0]nent_0,                       // Num entries per page [4 bits each]
-  //output [(RAM_DEPTH/RAM_WIDTH)*4:0] nent_0,                 // Num entries per page [4 bits each]
+  input [PAGES/2:0]pagea,              // Write page
+  input [PAGES/2:0]pageb,              // Read page
+  input [4:0]nent_i,                   // Num entries received
+  output [4:0]nent_0,                  // Num entries per page [4 bits each]
   output [RAM_WIDTH-1:0] doutb         // RAM output data
 );
 
-  (* ram_style = "block" *) reg [RAM_WIDTH-1:0] BRAM [RAM_DEPTH-1:0];
+  (* ram_style = "block" *) reg [RAM_WIDTH-1:0] BRAM [PAGES*RAM_DEPTH-1:0];
   reg [RAM_WIDTH-1:0] ram_data = {RAM_WIDTH{1'b0}};
+  reg [4:0] nevt = 4'b0;
+  reg [3+PAGES/2:0] paddra, paddrb;
 
   // The following code either initializes the memory values to a specified file or to all zeros to match hardware
   generate
     if (INIT_FILE != "") begin: use_init_file
       initial
         if (HEX)
-            $readmemh(INIT_FILE, BRAM, 0, RAM_DEPTH-1);
+            $readmemh(INIT_FILE, BRAM, 0, PAGES*RAM_DEPTH-1);
         else
-            $readmemb(INIT_FILE, BRAM, 0, RAM_DEPTH-1);
+            $readmemb(INIT_FILE, BRAM, 0, PAGES*RAM_DEPTH-1);
     end else begin: init_bram_to_zero
       integer ram_index;
       initial
-        for (ram_index = 0; ram_index < RAM_DEPTH; ram_index = ram_index + 1)
+        for (ram_index = 0; ram_index < PAGES*RAM_DEPTH; ram_index = ram_index + 1)
           BRAM[ram_index] = {RAM_WIDTH{1'b0}};
     end
   endgenerate
 
   always @(posedge clka)
     if (wea)
-      BRAM[addra] <= dina; 
+    begin
+      paddra = addra + pagea*RAM_DEPTH;
+      BRAM[paddra] <= dina;
+      nevt = nent_i;
+    end
 
-  assign nent_0 = nevt;
-       
+  assign nent_0 = nent_i;
+
   always @(posedge clkb)
     if (enb)
-      ram_data <= BRAM[addrb];
+    begin
+      paddrb = addrb + pageb*RAM_DEPTH;
+      ram_data <= BRAM[paddrb];
+    end
+
 
   //  The following code generates HIGH_PERFORMANCE (use output register) or LOW_LATENCY (no output register)
   generate

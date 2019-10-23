@@ -45,7 +45,7 @@ end
 //    #5 new_BX = ~new_BX;
 //end
 reg [1:0] bx_in;
-initial bx_in = 2'b10;
+initial bx_in = 2'b00;
 always begin
   #80 bx_in <= bx_in + 1'b1; // bx driver
 end
@@ -63,13 +63,17 @@ wire bx_out;
 // mem1_BRAM signals
 reg[31:0] mem1_din;
 wire[31:0] mem1_dout;
-wire[4:0] mem1_readaddr;
-reg[4:0] mem1_writeaddr;
+wire[3:0] mem1_readaddr;
+reg[3:0] mem1_writeaddr;
 reg mem1_ena;
 reg mem1_wea;
 wire mem1_enb;
 wire[4:0] mem1_nent;
 wire[4:0] mem2_nent;
+wire[1:0] mem1_pagea;
+wire[2:0] mem1_pageb;
+wire[1:0] mem2_pagea;
+wire[1:0] mem2_pageb;
 
 initial begin
   mem1_writeaddr = 0;
@@ -80,8 +84,8 @@ end
 // mem2_BRAM signals
 reg[31:0] mem2_din;
 wire[31:0] mem2_dout;
-wire[4:0] mem2_readaddr;
-reg[4:0] mem2_writeaddr;
+wire[3:0] mem2_readaddr;
+reg[3:0] mem2_writeaddr;
 reg mem2_ena;
 reg mem2_wea;
 wire mem2_enb;
@@ -95,8 +99,10 @@ end
 //memout_BRAM signals
 wire[31:0] memout_din;
 wire[31:0] memout_dout;
-wire[4:0] memout_readaddr;
-wire[4:0] memout_writeaddr;
+wire[3:0] memout_readaddr;
+wire[3:0] memout_writeaddr;
+wire[1:0] memout_page;
+wire[4:0] memout_nent;
 wire memout_ena;
 wire memout_wea;
 wire memout_enb;
@@ -115,10 +121,12 @@ Memory #(
     .dina(mem1_din),
     .wea(mem1_wea),
     .clkb(clk),
+    .pagea(mem1_pagea),
+    .pageb(bx_in),
     .addrb(mem1_readaddr),
     .doutb(mem1_dout),
     .regceb(1'b1),
-    .nevt('b11111),
+    .nent_i('d31),
     .nent_0(mem1_nent),
     .enb(mem1_enb)
 );
@@ -159,10 +167,12 @@ Memory #(
     .dina(mem2_din),
     .wea(mem2_wea),
     .clkb(clk),
+    .pagea(mem2_pagea),
+    .pageb(bx_in),
     .addrb(mem2_readaddr),
     .doutb(mem2_dout),
     .regceb(1'b1),
-    .nevt('b11111),
+    .nent_i('d31),
     .nent_0(mem2_nent),
     .enb(mem2_enb)
 );
@@ -208,14 +218,20 @@ FullDummyProject_top doFull (
   .bx_in(bx_in),
   .bx_out(bx_out),
   .mem1_readaddr(mem1_readaddr),
+  .mem1_pagea(mem1_pagea),
+  .mem1_pageb(mem1_pageb),
   .mem1_nent(mem1_nent),
   .mem1_dout(mem1_dout),
   .mem2_readaddr(mem2_readaddr),
+  .mem2_pagea(mem2_pagea),
+  .mem2_pageb(mem2_pageb),
   .mem2_nent(mem1_nent),
   .mem2_dout(mem2_dout),
   .memout_ena(memout_ena),
   .memout_wea(memout_wea),
   .memout_writeaddr(memout_writeaddr),
+  .memout_pagea(memout_page),
+  .memout_nent(memout_nent),
   .memout_din(memout_din)
 );
 

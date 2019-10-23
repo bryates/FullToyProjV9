@@ -1,5 +1,7 @@
 #include "processA.hh"
 #include <algorithm>
+#define WIDTH1 32
+#define WIDTH2 64
 
 int main()
 {
@@ -34,20 +36,21 @@ int main()
     cout << "Event: " << ievt << endl;
 
     // call top function
-    processA(ievt, bx_o, inarray1, inarray2, memoryAB, memoryAC, nent_i1, nent_o1, nent_i2, nent_o2);
+    processA(ievt, bx_o, inarray1[ievt%2], inarray2[ievt%2], memoryAB[ievt%2], memoryAC[ievt%4], nent_i1, nent_o1, nent_i2, nent_o2);
     //topfunction(ievt, bx_o, inarray1[ievt%2], inarray2[ievt%2], outarray[ievt%2]);
 
     // verify output
     for (int i = 0; i<16; ++i) {
       if(ievt%2==0 && i>=nent_i1[0]) continue;
       if (memoryAB[ievt%2][i] != refarray1[ievt%2][i]) err++;
-      //std::cout << memoryAB[ievt%2][i] << "\t" << refarray1[ievt%2][i] << std::endl;
+      std::cout << memoryAB[ievt%2][i] << "\t" << refarray1[ievt%2][i] << std::endl;
       //std::cout << memoryAC[ievt%2][i] << "\t" << refarray2[ievt%2][i] << std::endl;
       if (memoryAC[ievt%4][i] != refarray2[ievt%2][i]) err++;
     }
     for (int i = 0; i < bx_o; i++) {
       if (nent_i1[i] != nent_o1[i]) err++;
       if (nent_i2[i] != nent_o2[i]) err++;
+      std::cout << bx_o << std::endl;
       //std::cout << nent_i2[i] << "\t" << nent_o2[i] << std::endl;
     }
   }

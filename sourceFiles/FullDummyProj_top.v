@@ -10,30 +10,41 @@ module FullDummyProject_top(
   input en_proc,
   input[1:0] bx_in,
   output[1:0] bx_out,
-  output[4:0] mem1_readaddr,
+  output[3:0] mem1_readaddr,
+  output[1:0] mem1_pagea,
+  output[1:0] mem1_pageb,
   input[5:0] mem1_nent,
   input[31:0] mem1_dout,
-  output[4:0] mem2_readaddr,
+  output[3:0] mem2_readaddr,
+  output[1:0] mem2_pagea,
+  output[1:0] mem2_pageb,
   input[5:0] mem2_nent,
   input[31:0] mem2_dout,
   output memout_ena,
   output memout_wea,
-  output[4:0] memout_writeaddr,
+  output[3:0] memout_writeaddr,
+  output[1:0] memout_pagea,
+  output[1:0] memout_nent,
   output[31:0] memout_din
 );
 
 // memAB_BRAM signals
 wire[31:0] memAB_din;
 wire[31:0] memAB_dout;
-wire[4:0] memAB_readaddr;
-wire[4:0] memAB_writeaddr;
+wire[3:0] memAB_readaddr;
+wire[3:0] memAB_writeaddr;
 wire memAB_ena;
 wire memAB_wea;
 wire memAB_enb;
+wire memAC_wea;
+wire memAC_enb;
 wire[4:0] memAB_nent1;
 wire[4:0] memAB_nent2;
 wire[4:0] memAB_nent3;
 wire[4:0] memAB_nent4;
+reg[1:0] memAB_page;
+reg[1:0] memAB_page_w;
+reg[1:0] memAB_page_r;
 
 // memAC_BRAM signals
 wire[31:0] memAC_din;
@@ -43,36 +54,72 @@ wire[5:0] memAC_writeaddr;
 wire memAC_ena;
 wire[4:0] memAC_nent1;
 wire[4:0] memAC_nent2;
+reg [2:0] memAC_page_w;
+reg [2:0] memAC_page_r;
 
 // memBC_BRAM signals
 wire[31:0] memBC_din;
 wire[31:0] memBC_dout;
-wire[4:0] memBC_readaddr;
-wire[4:0] memBC_writeaddr;
+wire[3:0] memBC_readaddr;
+wire[3:0] memBC_writeaddr;
 wire memBC_ena;
 wire memBC_wea;
 wire memBC_enb;
 wire[4:0] memBC_nent1;
 wire[4:0] memBC_nent2;
+reg[1:0] memBC_page;
+reg[1:0] memBC_page_w;
+reg[1:0] memBC_page_r;
+reg[1:0] memo_page;
 
 // Process start/done signals
 reg processB_start;
 reg processC_start;
 wire processA_done;
 wire processB_done;
+wire processC_done;
 
 initial begin
   processB_start = 1'b0;
   processC_start = 1'b0;
+  memAB_page_w = 1'b0;
+  memAB_page_r = 1'b0;
+  memAC_page_w = 1'b0;
+  memAC_page_r = 1'b0;
+  memBC_page_w = 1'b0;
+  memBC_page_r = 1'b0;
 end
 
 //always @(posedge clk) begin
 always @(processA_done) begin
+  if (processA_done) begin
+    memAB_page_w = memAB_page_w + 1'b1;
+    memAC_page_w = memAC_page_w + 1'b1;
+  end
   if (processA_done) processB_start = 1'b1;
 end
 always @(processB_done) begin
+  if (processB_done) memBC_page_w = memBC_page_w + 1'b1;
   if (processB_done) processC_start = 1'b1;
 end
+always @(processC_start) begin
+  if(processC_start) begin
+    memAB_page = memAB_page_r;
+    memBC_page = memBC_page_r;
+  end
+end
+always @(processC_done) begin
+  if (processC_done) memo_page = memo_page + 1'b1;
+  if (processC_done) begin
+    memAB_page_r = memAB_page_r + 1'b1;
+    memBC_page_r = memBC_page_r + 1'b1;
+    memAB_page = memAB_page_w;
+    memBC_page = memBC_page_w;
+  end
+end
+
+assign mem1_pagea = memAB_page_w;
+assign mem2_pagea = memAC_page_w;
 
 // Instantiate all BRAMs
 Memory #(
@@ -88,10 +135,12 @@ Memory #(
     .dina(memAB_din),
     .wea(memAB_wea),
     .clkb(clk),
+    .pagea(memAB_page_w),
+    .pageb(memAB_page_r),
     .addrb(memAB_readaddr),
     .doutb(memAB_dout),
     .regceb(1'b1),
-    .nevt(memAB_nent1),
+    .nent_i(memAB_nent1),
     .enb(memAB_enb)
 );
 //blk_mem_gen_2page memAB_BRAM (
@@ -120,7 +169,7 @@ Memory #(
 Memory #(
     .RAM_WIDTH(32),
     .RAM_DEPTH(16),
-    .PAGES(2),
+    .PAGES(4),
     .RAM_PERFORMANCE("HIGH_PERFORMANCE"),
     .INIT_FILE("")
     ) memAC_BRAM (
@@ -129,10 +178,12 @@ Memory #(
     .dina(memAC_din),
     .wea(memAC_wea),
     .clkb(clk),
+    .pagea(memAC_page_w),
+    .pageb(memAC_page_r),
     .addrb(memAC_readaddr),
     .doutb(memAC_dout),
     .regceb(1'b1),
-    .nevt(memAC_nent1),
+    .nent_i(memAC_nent1),
     .enb(memAC_enb)
 );
 
@@ -159,10 +210,12 @@ Memory #(
     .dina(memBC_din),
     .wea(memBC_wea),
     .clkb(clk),
+    .pagea(memBC_page_w),
+    .pageb(memBC_page_r),
     .addrb(memBC_readaddr),
     .doutb(memBC_dout),
     .regceb(1'b1),
-    .nevt(memBC_nent1),
+    .nent_i(memBC_nent1),
     .enb(memBC_enb)
 );
 
@@ -226,6 +279,7 @@ processC_0 doC (
   .ap_clk(clk),
   .ap_rst(reset),
   .ap_start(processC_start),
+  .ap_done(processC_done),
   .bx_V(bx_out_B),
   .bx_o_V(bx_out),
   .inmem1_address0(memBC_readaddr),

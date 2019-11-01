@@ -18,8 +18,16 @@ void processA(ap_uint<2> bx, ap_uint<2>& bx_o,
 
   nent_o1[bx] = nent_i1[bx];
   nent_o2[bx] = nent_i2[bx];
+  int count1[4] = {0,0,0,0};
+  int count2[4] = {0,0,0,0};
+
+  ap_uint<5> bx_i = bx;
+  
   for (int i = 0; i < 16; ++i) {
+      nent_o1[bx] = nent_i1[bx];
+      nent_o2[bx] = nent_i2[bx];
 #pragma HLS pipeline II=1 rewind
+    //if(count1[bx_i] >= nent_o1[bx_i] && count2[bx_i] >= nent_o2[bx_i]) continue;
     // read input memories
     int indata1 = inmem1[i]; //address with paging
     int indata2 = inmem2[i]; //address with paging
@@ -34,5 +42,13 @@ void processA(ap_uint<2> bx, ap_uint<2>& bx_o,
     outmem2[i] = outdataB;
 
     if (i==15) bx_o = bx;
+    if(count1[bx_i] < nent_i1[bx_i])
+    count1[bx_i]++;
+    if(count2[bx_i] < nent_i2[bx_i])
+    count2[bx_i]++;
   }
+  /*
+  nent_o1[bx_i] = count1[bx_i];
+  nent_o2[bx_i] = count2[bx_i];
+  */
 }

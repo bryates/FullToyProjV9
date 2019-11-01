@@ -45,9 +45,18 @@ end
 //    #5 new_BX = ~new_BX;
 //end
 reg [1:0] bx_in;
+reg [5:0] mem1_nent_i = 'd16;
+//reg [5:0] mem1_entries [1:0];
 initial bx_in = 2'b00;
+//initial mem1_nent_i = 'd16;
+//initial begin
+//    mem1_entries[0] = 'd6;
+//    mem1_entries[1] = 'd5;
+//end
+
 always begin
   #80 bx_in <= bx_in + 1'b1; // bx driver
+//  mem1_nent_i = mem1_entries[bx_in[0]];
 end
 //initial begin
 //  #150
@@ -108,7 +117,7 @@ wire memout_wea;
 wire memout_enb;
 
 // Instantiate all BRAMs
-Memory #(
+MemoryInit #(
     .RAM_WIDTH(32),
     .RAM_DEPTH(16),
     .PAGES(2),
@@ -126,7 +135,8 @@ Memory #(
     .addrb(mem1_readaddr),
     .doutb(mem1_dout),
     .regceb(1'b1),
-    .nent_i('d16),
+    .nent_i(mem1_nent_i),
+//    .nent_i('d16),
     .nent_0(mem1_nent),
     .enb(mem1_enb)
 );
@@ -154,7 +164,7 @@ Memory #(
 //  .enb(mem2_enb)
 //);
 
-Memory #(
+MemoryInit #(
     .RAM_WIDTH(32),
     .RAM_DEPTH(16),
     .PAGES(2),

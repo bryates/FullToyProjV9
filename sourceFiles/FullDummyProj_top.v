@@ -98,6 +98,9 @@ always @(processA_done) begin
   end
   if (processA_done) processB_start = 1'b1;
 end
+//always @(posedge clk) begin
+//  if (mem1_nent == memAB_nent1) processB_start = 1'b1;
+//end
 always @(processB_done) begin
   if (processB_done) memBC_page_w = memBC_page_w + 1'b1;
   if (processB_done) processC_start = 1'b1;

@@ -42,15 +42,17 @@ int main()
     // verify output
     for (int i = 0; i<16; ++i) {
       if(ievt%2==0 && i>=nent_i1[0]) continue;
-      if (memoryAB[ievt%2][i] != refarray1[ievt%2][i]) err++;
+      if (memoryAB[ievt%2][i] != refarray1[ievt%2][i]) { err++;
       std::cout << memoryAB[ievt%2][i] << "\t" << refarray1[ievt%2][i] << std::endl;
-      //std::cout << memoryAC[ievt%2][i] << "\t" << refarray2[ievt%2][i] << std::endl;
-      if (memoryAC[ievt%4][i] != refarray2[ievt%2][i]) err++;
+      }
+      if (memoryAC[ievt%4][i] != refarray2[ievt%2][i]) { err++;
+      std::cout << memoryAC[ievt%2][i] << "\t" << refarray2[ievt%2][i] << std::endl;
+      }
     }
     for (int i = 0; i < bx_o; i++) {
       if (nent_i1[i] != nent_o1[i]) err++;
       if (nent_i2[i] != nent_o2[i]) err++;
-      std::cout << bx_o << std::endl;
+      //std::cout << bx_o << std::endl;
       //std::cout << nent_i2[i] << "\t" << nent_o2[i] << std::endl;
     }
   }

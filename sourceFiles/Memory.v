@@ -48,7 +48,7 @@ module Memory #(
 
   (* ram_style = "block" *) reg [RAM_WIDTH-1:0] BRAM [PAGES*RAM_DEPTH-1:0];
   reg [RAM_WIDTH-1:0] ram_data = {RAM_WIDTH{1'b0}};
-  reg [5*PAGES:0] nevt = 'b1000010000;
+  reg [4:0] nevt [PAGES-1:0];
   reg [4:0] nent = 4'b0;
   reg [3+PAGES/2:0] paddra, paddrb;
 
@@ -66,22 +66,25 @@ module Memory #(
         for (ram_index = 0; ram_index < PAGES*RAM_DEPTH; ram_index = ram_index + 1)
           BRAM[ram_index] = {RAM_WIDTH{1'b0}};
     end
+    initial nent = nent_i;
   endgenerate
 
   always @(posedge clka)
     if (wea)
     begin
       paddra = addra + pagea*RAM_DEPTH;
-      BRAM[paddra] <= dina;
-      nevt = nevt | (nent_i << 5*pagea);
+      if (addra < nent_i)
+        BRAM[paddra] <= dina;
+      nevt[pagea] = nent_i;
     end
 
   always @(posedge clkb)
     if (enb)
     begin
       paddrb = addrb + pageb*RAM_DEPTH;
+      assign nent = nevt[pageb];
+      if (addrb < nent)
       ram_data <= BRAM[paddrb];
-      assign nent = nevt >> 5*pageb;
     end
 
   assign nent_0 = nent;

@@ -77,8 +77,10 @@ reg[3:0] mem1_writeaddr;
 reg mem1_ena;
 reg mem1_wea;
 wire mem1_enb;
-wire[4:0] mem1_nent;
-wire[4:0] mem2_nent;
+wire[4:0] mem1_nent0;
+wire[4:0] mem1_nent1;
+wire[4:0] mem2_nent0;
+wire[4:0] mem2_nent1;
 wire[1:0] mem1_pagea;
 wire[2:0] mem1_pageb;
 wire[1:0] mem2_pagea;
@@ -135,9 +137,11 @@ MemoryInit #(
     .addrb(mem1_readaddr),
     .doutb(mem1_dout),
     .regceb(1'b1),
-    .nent_i(mem1_nent_i),
+    .nent_i0(mem1_nent_i),
+    .nent_i1(mem1_nent_i),
 //    .nent_i('d16),
-    .nent_0(mem1_nent),
+    .nent_o0(mem1_nent0),
+    .nent_o1(mem1_nent1),
     .enb(mem1_enb)
 );
 //blk_mem_gen_mem1 mem1_BRAM (
@@ -182,8 +186,9 @@ MemoryInit #(
     .addrb(mem2_readaddr),
     .doutb(mem2_dout),
     .regceb(1'b1),
-    .nent_i('d16),
-    .nent_0(mem2_nent),
+    .nent_i0('d16),
+    .nent_o0(mem2_nent0),
+    .nent_o1(mem2_nent1),
     .enb(mem2_enb)
 );
 
@@ -230,12 +235,14 @@ FullDummyProject_top doFull (
   .mem1_readaddr(mem1_readaddr),
   .mem1_pagea(mem1_pagea),
   .mem1_pageb(mem1_pageb),
-  .mem1_nent(mem1_nent),
+  .mem1_nent0(mem1_nent0),
+  .mem1_nent1(mem1_nent1),
   .mem1_dout(mem1_dout),
   .mem2_readaddr(mem2_readaddr),
   .mem2_pagea(mem2_pagea),
   .mem2_pageb(mem2_pageb),
-  .mem2_nent(mem1_nent),
+  .mem2_nent0(mem2_nent0),
+  .mem2_nent1(mem2_nent1),
   .mem2_dout(mem2_dout),
   .memout_ena(memout_ena),
   .memout_wea(memout_wea),

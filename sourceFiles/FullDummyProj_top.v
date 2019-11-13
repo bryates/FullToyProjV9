@@ -13,12 +13,14 @@ module FullDummyProject_top(
   output[3:0] mem1_readaddr,
   output[1:0] mem1_pagea,
   output[1:0] mem1_pageb,
-  input[5:0] mem1_nent,
+  input[5:0] mem1_nent0,
+  input[5:0] mem1_nent1,
   input[31:0] mem1_dout,
   output[3:0] mem2_readaddr,
   output[1:0] mem2_pagea,
   output[1:0] mem2_pageb,
-  input[5:0] mem2_nent,
+  input[5:0] mem2_nent0,
+  input[5:0] mem2_nent1,
   input[31:0] mem2_dout,
   output memout_ena,
   output memout_wea,
@@ -38,11 +40,10 @@ wire memAB_wea;
 wire memAB_enb;
 wire memAC_wea;
 wire memAC_enb;
+wire[4:0] memAB_nent0;
 wire[4:0] memAB_nent1;
 wire[4:0] memAB_nent2;
 wire[4:0] memAB_nent3;
-wire[4:0] memAB_nent4;
-reg[1:0] memAB_page;
 reg[1:0] memAB_page_w;
 reg[1:0] memAB_page_r;
 
@@ -52,8 +53,10 @@ wire[31:0] memAC_dout;
 wire[5:0] memAC_readaddr;
 wire[5:0] memAC_writeaddr;
 wire memAC_ena;
+wire[4:0] memAC_nent0;
 wire[4:0] memAC_nent1;
 wire[4:0] memAC_nent2;
+wire[4:0] memAC_nent3;
 reg [2:0] memAC_page_w;
 reg [2:0] memAC_page_r;
 
@@ -65,9 +68,8 @@ wire[3:0] memBC_writeaddr;
 wire memBC_ena;
 wire memBC_wea;
 wire memBC_enb;
+wire[4:0] memBC_nent0;
 wire[4:0] memBC_nent1;
-wire[4:0] memBC_nent2;
-reg[1:0] memBC_page;
 reg[1:0] memBC_page_w;
 reg[1:0] memBC_page_r;
 reg[1:0] memo_page;
@@ -105,19 +107,11 @@ always @(processB_done) begin
   if (processB_done) memBC_page_w = memBC_page_w + 1'b1;
   if (processB_done) processC_start = 1'b1;
 end
-always @(processC_start) begin
-  if(processC_start) begin
-    memAB_page = memAB_page_r;
-    memBC_page = memBC_page_r;
-  end
-end
 always @(processC_done) begin
   if (processC_done) memo_page = memo_page + 1'b1;
   if (processC_done) begin
     memAB_page_r = memAB_page_r + 1'b1;
     memBC_page_r = memBC_page_r + 1'b1;
-    memAB_page = memAB_page_w;
-    memBC_page = memBC_page_w;
   end
 end
 
@@ -143,7 +137,10 @@ Memory #(
     .addrb(memAB_readaddr),
     .doutb(memAB_dout),
     .regceb(1'b1),
-    .nent_i(memAB_nent1),
+    .nent_i0(memAB_nent0),
+    .nent_i1(memAB_nent1),
+    .nent_i2(memAB_nent2),
+    .nent_i3(memAB_nent3),
     .enb(memAB_enb)
 );
 //blk_mem_gen_2page memAB_BRAM (
@@ -186,7 +183,10 @@ Memory #(
     .addrb(memAC_readaddr),
     .doutb(memAC_dout),
     .regceb(1'b1),
-    .nent_i(memAC_nent1),
+    .nent_i0(memAC_nent0),
+    .nent_i1(memAC_nent1),
+    .nent_i2(memAC_nent2),
+    .nent_i3(memAC_nent3),
     .enb(memAC_enb)
 );
 
@@ -218,7 +218,8 @@ Memory #(
     .addrb(memBC_readaddr),
     .doutb(memBC_dout),
     .regceb(1'b1),
-    .nent_i(memBC_nent1),
+    .nent_i0(memBC_nent0),
+    .nent_i1(memBC_nent1),
     .enb(memBC_enb)
 );
 
@@ -247,10 +248,18 @@ processA_0 doA (
   .outmem1_address0(memAB_writeaddr),
   .outmem1_d0(memAB_din),
   .outmem2_address0(memAC_writeaddr),
-  .nent_i1_0_V(mem1_nent),
-  .nent_i2_0_V(mem2_nent),
-  .nent_o1_0_V(memAB_nent1),
-  .nent_o2_0_V(memAC_nent1),
+  .nent_i1_0_V(mem1_nent0),
+  .nent_i1_1_V(mem1_nent1),
+  .nent_i2_0_V(mem2_nent0),
+  .nent_i2_1_V(mem2_nent1),
+  .nent_o1_0_V(memAB_nent0),
+  .nent_o2_0_V(memAC_nent0),
+  .nent_o1_1_V(memAB_nent1),
+  .nent_o2_1_V(memAC_nent1),
+  .nent_o1_2_V(memAB_nent2),
+  .nent_o2_2_V(memAC_nent2),
+  .nent_o1_3_V(memAB_nent3),
+  .nent_o2_3_V(memAC_nent3),
   .outmem2_d0(memAC_din)
 );
 
@@ -268,7 +277,7 @@ processB_0 doB (
   .inmem_address0(memAB_readaddr),
   .inmem_q0(memAB_dout),
   .outmem_address0(memBC_writeaddr),
-  .nent_i_0_V(memAB_nent1),
+  .nent_i_0_V(memAB_nent0),
   .nent_o_0_V(memBC_nent1),
   .outmem_d0(memBC_din)
 );

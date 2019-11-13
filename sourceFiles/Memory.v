@@ -41,8 +41,22 @@ module Memory #(
   input regceb,                        // Output register enable
   input [PAGES/2-1:0]pagea,              // Write page
   input [PAGES/2-1:0]pageb,              // Read page
-  input [4:0]nent_i,                   // Num entries received
-  output [4:0]nent_0,                  // Num entries per page [4 bits each]
+  input [4:0]nent_i0,                   // Num entries received
+  output [4:0]nent_o0,                  // Num entries per page [4 bits each]
+  input [4:0]nent_i1,                   // Num entries received
+  output [4:0]nent_o1,                  // Num entries per page [4 bits each]
+  input [4:0]nent_i2,                   // Num entries received
+  output [4:0]nent_o2,                  // Num entries per page [4 bits each]
+  input [4:0]nent_i3,                   // Num entries received
+  output [4:0]nent_o3,                  // Num entries per page [4 bits each]      
+  input [4:0]nent_i4,                   // Num entries received
+  output [4:0]nent_o4,                  // Num entries per page [4 bits each]      
+  input [4:0]nent_i5,                   // Num entries received
+  output [4:0]nent_o5,                  // Num entries per page [4 bits each]      
+  input [4:0]nent_i6,                   // Num entries received
+  output [4:0]nent_o6,                  // Num entries per page [4 bits each]      
+  input [4:0]nent_i7,                   // Num entries received
+  output [4:0]nent_o7,                  // Num entries per page [4 bits each]      
   output [RAM_WIDTH-1:0] doutb         // RAM output data
 );
 
@@ -66,28 +80,35 @@ module Memory #(
         for (ram_index = 0; ram_index < PAGES*RAM_DEPTH; ram_index = ram_index + 1)
           BRAM[ram_index] = {RAM_WIDTH{1'b0}};
     end
-    initial nent = nent_i;
+    initial nent = nent_i1;
   endgenerate
 
   always @(posedge clka)
     if (wea)
     begin
-      paddra = addra + pagea*RAM_DEPTH;
-      if (addra < nent_i)
-        BRAM[paddra] <= dina;
-      nevt[pagea] = nent_i;
+//      paddra = addra + pagea*RAM_DEPTH;
+//      if (addra < nent_i)
+        BRAM[addra] <= dina;
+//      nevt[pagea] = nent_i;
     end
 
   always @(posedge clkb)
     if (enb)
     begin
-      paddrb = addrb + pageb*RAM_DEPTH;
-      assign nent = nevt[pageb];
-      if (addrb < nent)
-      ram_data <= BRAM[paddrb];
+//      paddrb = addrb + pageb*RAM_DEPTH;
+//      assign nent = nevt[pageb];
+//      if (addrb < nent)
+      ram_data <= BRAM[addrb];
     end
 
-  assign nent_0 = nent;
+  assign nent_o0 = nent_i0;
+  assign nent_o1 = nent_i1;
+  assign nent_o2 = nent_i2;
+  assign nent_o3 = nent_i3;
+  assign nent_o4 = nent_i4;
+  assign nent_o5 = nent_i5;
+  assign nent_o6 = nent_i6;
+  assign nent_o7 = nent_i7;
 
   //  The following code generates HIGH_PERFORMANCE (use output register) or LOW_LATENCY (no output register)
   generate

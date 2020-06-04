@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="FullDummyProject_sim_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="FullDummyProject_sim" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="319400001fs"></ZoomEndTime>
+      <Cursor1Time time="190000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="166"></NameColumnWidth>
+      <ValueColumnWidth column_width="66"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="58" />
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/en_proc">
+      <obj_property name="ElementShortName">en_proc</obj_property>
+      <obj_property name="ObjectShortName">en_proc</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/bx_in">
+      <obj_property name="ElementShortName">bx_in[1:0]</obj_property>
+      <obj_property name="ObjectShortName">bx_in[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/bx_out">
+      <obj_property name="ElementShortName">bx_out</obj_property>
+      <obj_property name="ObjectShortName">bx_out</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/mem1_dout">
+      <obj_property name="ElementShortName">mem1_dout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem1_dout[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/mem1_readaddr">
+      <obj_property name="ElementShortName">mem1_readaddr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mem1_readaddr[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/mem1_writeaddr">
+      <obj_property name="ElementShortName">mem1_writeaddr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mem1_writeaddr[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/mem1_ena">
+      <obj_property name="ElementShortName">mem1_ena</obj_property>
+      <obj_property name="ObjectShortName">mem1_ena</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/mem1_wea">
+      <obj_property name="ElementShortName">mem1_wea</obj_property>
+      <obj_property name="ObjectShortName">mem1_wea</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/mem1_enb">
+      <obj_property name="ElementShortName">mem1_enb</obj_property>
+      <obj_property name="ObjectShortName">mem1_enb</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/mem2_dout">
+      <obj_property name="ElementShortName">mem2_dout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem2_dout[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/mem2_readaddr">
+      <obj_property name="ElementShortName">mem2_readaddr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mem2_readaddr[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/mem2_writeaddr">
+      <obj_property name="ElementShortName">mem2_writeaddr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mem2_writeaddr[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/mem2_ena">
+      <obj_property name="ElementShortName">mem2_ena</obj_property>
+      <obj_property name="ObjectShortName">mem2_ena</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/mem2_wea">
+      <obj_property name="ElementShortName">mem2_wea</obj_property>
+      <obj_property name="ObjectShortName">mem2_wea</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/mem2_enb">
+      <obj_property name="ElementShortName">mem2_enb</obj_property>
+      <obj_property name="ObjectShortName">mem2_enb</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/memout_din">
+      <obj_property name="ElementShortName">memout_din[31:0]</obj_property>
+      <obj_property name="ObjectShortName">memout_din[31:0]</obj_property>
+      <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
+      <obj_property name="Reversed">false</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/memout_dout">
+      <obj_property name="ElementShortName">memout_dout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">memout_dout[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/memout_readaddr">
+      <obj_property name="ElementShortName">memout_readaddr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">memout_readaddr[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/memout_writeaddr">
+      <obj_property name="ElementShortName">memout_writeaddr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">memout_writeaddr[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/memout_ena">
+      <obj_property name="ElementShortName">memout_ena</obj_property>
+      <obj_property name="ObjectShortName">memout_ena</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/memout_wea">
+      <obj_property name="ElementShortName">memout_wea</obj_property>
+      <obj_property name="ObjectShortName">memout_wea</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/memout_enb">
+      <obj_property name="ElementShortName">memout_enb</obj_property>
+      <obj_property name="ObjectShortName">memout_enb</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/addra">
+      <obj_property name="ElementShortName">addra[3:0]</obj_property>
+      <obj_property name="ObjectShortName">addra[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/addrb">
+      <obj_property name="ElementShortName">addrb[3:0]</obj_property>
+      <obj_property name="ObjectShortName">addrb[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/dina">
+      <obj_property name="ElementShortName">dina[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dina[31:0]</obj_property>
+      <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/clka">
+      <obj_property name="ElementShortName">clka</obj_property>
+      <obj_property name="ObjectShortName">clka</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/clkb">
+      <obj_property name="ElementShortName">clkb</obj_property>
+      <obj_property name="ObjectShortName">clkb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/wea">
+      <obj_property name="ElementShortName">wea</obj_property>
+      <obj_property name="ObjectShortName">wea</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/enb">
+      <obj_property name="ElementShortName">enb</obj_property>
+      <obj_property name="ObjectShortName">enb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/rstb">
+      <obj_property name="ElementShortName">rstb</obj_property>
+      <obj_property name="ObjectShortName">rstb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/regceb">
+      <obj_property name="ElementShortName">regceb</obj_property>
+      <obj_property name="ObjectShortName">regceb</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/mem1_BRAM/nent_o0">
+      <obj_property name="ElementShortName">nent_o0[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_o0[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/mem1_nent0">
+      <obj_property name="ElementShortName">mem1_nent0[4:0]</obj_property>
+      <obj_property name="ObjectShortName">mem1_nent0[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/mem1_readaddr">
+      <obj_property name="ElementShortName">mem1_readaddr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">mem1_readaddr[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/doFull/doA/ap_clk">
+      <obj_property name="ElementShortName">ap_clk</obj_property>
+      <obj_property name="ObjectShortName">ap_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/doFull/doA/ap_start">
+      <obj_property name="ElementShortName">ap_start</obj_property>
+      <obj_property name="ObjectShortName">ap_start</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/doFull/doA/ap_done">
+      <obj_property name="ElementShortName">ap_done</obj_property>
+      <obj_property name="ObjectShortName">ap_done</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/doFull/doA/ap_idle">
+      <obj_property name="ElementShortName">ap_idle</obj_property>
+      <obj_property name="ObjectShortName">ap_idle</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/FullDummyProject_sim/doFull/doA/ap_ready">
+      <obj_property name="ElementShortName">ap_ready</obj_property>
+      <obj_property name="ObjectShortName">ap_ready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/doA/bx_V">
+      <obj_property name="ElementShortName">bx_V[1:0]</obj_property>
+      <obj_property name="ObjectShortName">bx_V[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/doA/bx_o_V">
+      <obj_property name="ElementShortName">bx_o_V[1:0]</obj_property>
+      <obj_property name="ObjectShortName">bx_o_V[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/memAB_writeaddr">
+      <obj_property name="ElementShortName">memAB_writeaddr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">memAB_writeaddr[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/mem1_BRAM/nent_o1">
+      <obj_property name="ElementShortName">nent_o1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_o1[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/mem1_nent1">
+      <obj_property name="ElementShortName">mem1_nent1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">mem1_nent1[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/mem2_BRAM/nent_o0">
+      <obj_property name="ElementShortName">nent_o0[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_o0[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/mem2_BRAM/nent_o1">
+      <obj_property name="ElementShortName">nent_o1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_o1[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/mem1_dout">
+      <obj_property name="ElementShortName">mem1_dout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem1_dout[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/doA/nent_i1_0_V">
+      <obj_property name="ElementShortName">nent_i1_0_V[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_i1_0_V[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/doA/nent_i1_1_V">
+      <obj_property name="ElementShortName">nent_i1_1_V[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_i1_1_V[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/doA/nent_o1_0_V">
+      <obj_property name="ElementShortName">nent_o1_0_V[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_o1_0_V[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/doA/nent_o1_1_V">
+      <obj_property name="ElementShortName">nent_o1_1_V[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_o1_1_V[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/nent_i1">
+      <obj_property name="ElementShortName">nent_i1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_i1[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/nent_i2">
+      <obj_property name="ElementShortName">nent_i2[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_i2[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/nent_i3">
+      <obj_property name="ElementShortName">nent_i3[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_i3[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/nent_i4">
+      <obj_property name="ElementShortName">nent_i4[4:0]</obj_property>
+      <obj_property name="ObjectShortName">nent_i4[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/FullDummyProject_sim/doFull/memAB_BRAM/BRAM">
+      <obj_property name="ElementShortName">BRAM[31:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">BRAM[31:0][31:0]</obj_property>
+   </wvobject>
+</wave_config>
